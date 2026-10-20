@@ -25,7 +25,7 @@ alert("Nama belum diisi.");
  <img width="940" height="348" alt="image" src="https://github.com/user-attachments/assets/30fbf02f-17df-42b2-bcca-e5bd677a4d1f" />
 
 Hasil : Jika nama tidak di isi.
-<img width="940" height="348" alt="image" src="https://github.com/user-attachments/assets/e72d6afb-4b21-4fe4-8cd7-05c74f6cabde" />
+<img width="940" height="435" alt="image" src="https://github.com/user-attachments/assets/92a28a11-e3e8-4c8d-ab08-ea8d83afabbd" />
 
  Hasil: Jika nama berhasil di isi.
 ________________________________________

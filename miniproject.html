@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Nilai Mahasiswa</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Kalkulator Nilai Mahasiswa</h1>
+
+        <p class="deskripsi">
+            Masukkan nilai tugas, UTS, dan UAS untuk menghitung nilai akhir.
+        </p>
+
+        <form id="formNilai">
+
+            <label for="tugas">Nilai Tugas (30%)</label>
+            <input
+                type="number"
+                id="tugas"
+                min="0"
+                max="100"
+                step="any"
+                placeholder="Masukkan nilai tugas"
+                required
+            >
+
+            <label for="uts">Nilai UTS (30%)</label>
+            <input
+                type="number"
+                id="uts"
+                min="0"
+                max="100"
+                step="any"
+                placeholder="Masukkan nilai UTS"
+                required
+            >
+
+            <label for="uas">Nilai UAS (40%)</label>
+            <input
+                type="number"
+                id="uas"
+                min="0"
+                max="100"
+                step="any"
+                placeholder="Masukkan nilai UAS"
+                required
+            >
+
+            <button type="submit">Hitung Nilai</button>
+
+        </form>
+
+        <p id="pesanError" class="error" role="alert"></p>
+
+        <div id="hasil" class="hasil" aria-live="polite">
+
+            <h2>Hasil Perhitungan</h2>
+
+            <div class="baris">
+                <span>Nilai Tugas:</span>
+                <span id="hasilTugas"></span>
+            </div>
+
+            <div class="baris">
+                <span>Nilai UTS:</span>
+                <span id="hasilUTS"></span>
+            </div>
+
+            <div class="baris">
+                <span>Nilai UAS:</span>
+                <span id="hasilUAS"></span>
+            </div>
+
+            <div class="baris">
+                <span>Nilai Akhir:</span>
+                <span id="nilaiAkhir" class="nilai-akhir"></span>
+            </div>
+
+            <div class="baris">
+                <span>Predikat:</span>
+                <span id="predikat"></span>
+            </div>
+
+            <div class="baris">
+                <span>Status:</span>
+                <span id="status" class="status"></span>
+            </div>
+
+        </div>
+
+        <p class="catatan">
+            Bobot penilaian: Tugas 30%, UTS 30%, dan UAS 40%.
+            Mahasiswa dinyatakan lulus jika nilai akhir minimal 60.
+        </p>
+
+    </div>
+
+    <script>
+        // 1. Fungsi untuk menghitung nilai akhir
+        function hitungNilaiAkhir(tugas, uts, uas) {
+            return tugas * 0.30 + uts * 0.30 + uas * 0.40;
+        }
+
+        // 2. Fungsi untuk menentukan predikat
+        function tentukanPredikat(nilai) {
+            if (nilai >= 85) return "A";
+            if (nilai >= 75) return "B";
+            if (nilai >= 60) return "C";
+            if (nilai >= 50) return "D";
+
+            return "E";
+        }
+
+        // 3. Fungsi untuk menentukan status kelulusan
+        function tentukanStatus(nilai) {
+            return nilai >= 60 ? "Lulus" : "Belum Lulus";
+        }
+
+        // 4. Mengambil data dari form ketika tombol ditekan
+        document.getElementById("formNilai").addEventListener("submit", function(event) {
+
+            // Mencegah halaman dimuat ulang
+            event.preventDefault();
+
+            const tugas = document.getElementById("tugas").valueAsNumber;
+            const uts = document.getElementById("uts").valueAsNumber;
+            const uas = document.getElementById("uas").valueAsNumber;
+
+            const pesanError = document.getElementById("pesanError");
+            const hasil = document.getElementById("hasil");
+
+            // Menghapus pesan error sebelumnya
+            pesanError.textContent = "";
+
+            // Memastikan nilai berada pada rentang 0 sampai 100
+            const nilai = [tugas, uts, uas];
+
+            const nilaiValid = nilai.every(function(n) {
+                return Number.isFinite(n) && n >= 0 && n <= 100;
+            });
+
+            if (!nilaiValid) {
+                pesanError.textContent =
+                    "Semua nilai harus berupa angka antara 0 sampai 100.";
+
+                hasil.style.display = "none";
+                return;
+            }
+
+            // Menghitung nilai akhir
+            const akhir = hitungNilaiAkhir(tugas, uts, uas);
+
+            // Menentukan predikat dan status
+            const grade = tentukanPredikat(akhir);
+            const statusKelulusan = tentukanStatus(akhir);
+
+            // Menampilkan nilai input
+            document.getElementById("hasilTugas").textContent = tugas;
+            document.getElementById("hasilUTS").textContent = uts;
+            document.getElementById("hasilUAS").textContent = uas;
+
+            // Menampilkan hasil perhitungan
+            document.getElementById("nilaiAkhir").textContent =
+                akhir.toFixed(2);
+
+            document.getElementById("predikat").textContent = grade;
+
+            document.getElementById("status").textContent =
+                statusKelulusan;
+
+            // Menampilkan bagian hasil pada halaman
+            hasil.style.display = "block";
+
+        });
+    </script>
+
+</body>
+</html>
